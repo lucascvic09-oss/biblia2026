@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17130e">
+  <title>Bíblia Viva — Sua palavra, a qualquer momento</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    :root{
+      --bg:#100e0b;
+      --panel:#1b1711;
+      --panel2:#242017;
+      --gold:#d6b36a;
+      --gold2:#f0d99e;
+      --ink:#f4ead6;
+      --muted:#b6a98e;
+      --line:#55452b;
+      --paper:#ead9b5;
+      --paper2:#d8c49a;
+      --shadow:rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:
+        radial-gradient(ellipse at 50% -20%,#4a3820 0%,transparent 45%),
+        var(--bg);
+      color:var(--ink);
+      font-family:'DM Sans',sans-serif;
+      min-height:100vh;
+      transition:background .3s ease,color .3s ease;
+    }
+
+    header{
+      height:76px;
+      border-bottom:1px solid #ffffff16;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 5vw;
+      position:sticky;
+      top:0;
+      background:#100e0beF;
+      backdrop-filter:blur(16px);
+      z-index:10;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-family:'Cormorant Garamond',serif;
+      font-size:27px;
+      letter-spacing:.5px;
+      font-weight:600;
+    }
+
+    .brand-mark{
+      width:39px;height:39px;border:1px solid var(--gold);
+      border-radius:50%;
+      display:grid;place-items:center;color:var(--gold);font-size:22px;
+    }
+
+    nav{display:flex;gap:22px}
+    nav a{color:var(--muted);text-decoration:none;font-size:13px}
+    nav a:hover{color:var(--gold2)}
+
+    .header-actions{
+      display:flex;gap:10px;align-items:center;
+    }
+
+    .icon-btn,.small-btn{
+      background:#ffffff0a;
+      border:1px solid #ffffff20;
+      color:var(--ink);
+      padding:10px 13px;
+      border-radius:30px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .icon-btn:hover,.small-btn:hover{
+      border-color:var(--gold);
+      color:var(--gold2);
+    }
+
+    .hero{
+      padding:62px 5vw 35px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:30px;
+      align-items:center;
+      max-width:1400px;
+      margin:auto;
+    }
+
+    .eyebrow{
+      color:var(--gold);
+      letter-spacing:3px;
+      text-transform:uppercase;
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .hero h1{
+      font:600 clamp(42px,5.3vw,76px)/.98 'Cormorant Garamond',serif;
+      margin:17px 0;
+    }
+
+    .hero h1 em{
+      color:var(--gold2);
+      font-weight:400;
+    }
+
+    .hero p{
+      color:var(--muted);
+      max-width:490px;
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    .hero-buttons{
+      display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;
+    }
+
+    .primary{
+      background:linear-gradient(135deg,#e4c47d,#b78b42);
+      color:#21190d;
+      border:0;
+      padding:13px 21px;
+      border-radius:30px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 8px 30px #c99c4b30;
+      transition:transform .2s ease, filter .2s ease;
+    }
+
+    .primary:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.08);
+    }
+
+    .secondary{
+      background:transparent;
+      color:var(--ink);
+      border:1px solid #ffffff30;
+      padding:13px 21px;
+      border-radius:30px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .secondary:hover{
+      border-color:var(--gold);
+      color:var(--gold2);
+    }
+
+    .book-stage{
+      height:330px;
+      display:grid;
+      place-items:center;
+      perspective:1400px;
+      position:relative;
+      user-select:none;
+    }
+
+    .glow{
+      position:absolute;
+      width:360px;
+      height:240px;
+      background:radial-gradient(circle,#d7aa5d 0%,rgba(215,170,93,.18) 30%,transparent 70%);
+      filter:blur(60px);
+      border-radius:50%;
+      transform:translateY(18px);
+    }
+
+    .book-shadow{
+      position:absolute;
+      bottom:18px;
+      width:270px;
+      height:32px;
+      background:rgba(0,0,0,.55);
+      filter:blur(18px);
+      border-radius:50%;
+      transform:translateZ(-80px);
+    }
+
+    .book3d{
+      position:relative;
+      width:240px;
+      height:300px;
+      transform-style:preserve-3d;
+      transform:rotateX(8deg) rotateY(-28deg) rotateZ(0deg);
+      transition:transform .9s cubic-bezier(.2,.9,.2,1);
+      cursor:grab;
+      filter:drop-shadow(18px 26px 24px rgba(0,0,0,.45));
+    }
+
+    .book3d.opened{
+      transform:rotateX(8deg) rotateY(-54deg) translateY(-5px);
+    }
+
+    .book3d:active{cursor:grabbing}
+
+    .book-shell{
+      position:absolute;
+      inset:0;
+      transform-style:preserve-3d;
+    }
+
+    .book-pages{
+      position:absolute;
+      inset:8px 6px 8px 10px;
+      border-radius:0 10px 10px 0;
+      background:
+        linear-gradient(90deg,#f7f1e2 0 9%,#e3d3af 9% 12%,#f8f2e6 12% 100%),
+        repeating-linear-gradient(
+          180deg,
+          rgba(130,99,57,.25) 0px,
+          rgba(130,99,57,.25) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      box-shadow:
+        inset -12px 0 16px rgba(98,74,38,.28),
+        inset 0 0 14px rgba(255,255,255,.35);
+      transform:translateZ(2px);
+    }
+
+    .book-spine{
+      position:absolute;
+      left:-18px;
+      top:0;
+      width:30px;
+      height:100%;
+      background:linear-gradient(90deg,#190f0b,#523720,#2a180f,#190f0b);
+      border-radius:8px 0 0 8px;
+      transform:rotateY(-90deg) translateZ(10px);
+      box-shadow:inset -8px 0 12px rgba(0,0,0,.35);
+    }
+
+    .book-cover{
+      position:absolute;
+      inset:0;
+      border-radius:8px 14px 14px 8px;
+      background:
+        linear-gradient(115deg,#3a2515 0%,#68471f 32%,#210f0c 60%,#3d2616 100%);
+      border:2px solid #c7a56e;
+      box-shadow:
+        inset 0 0 0 5px rgba(220,186,109,.12),
+        inset 0 0 0 8px rgba(32,19,12,.9),
+        inset -12px 0 18px rgba(0,0,0,.25);
+      transform-origin:left center;
+      transform:translateZ(18px);
+      transition:transform 1.1s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
+      overflow:hidden;
+    }
+
+    .book3d.opened .book-cover{
+      transform:translateZ(16px) rotateY(-150deg);
+    }
+
+    .book-cover::before{
+      content:"";
+      position:absolute;
+      inset:18px;
+      border:1px solid rgba(228,196,125,.7);
+      border-radius:6px;
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.03);
+    }
+
+    .book-cover-inner{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:22px;
+      z-index:2;
+      color:#f4dfae;
+      transform:translateZ(14px);
+    }
+
+    .book-cross{
+      font-size:42px;
+      margin-bottom:8px;
+      text-shadow:0 0 20px rgba(255,240,180,.3);
+    }
+
+    .book-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:36px;
+      line-height:.85;
+      letter-spacing:2px;
+      font-weight:600;
+      margin:0;
+    }
+
+    .book-sub{
+      margin-top:13px;
+      letter-spacing:3px;
+      font-size:9px;
+      color:#e2c98d;
+      text-transform:uppercase;
+    }
+
+    .book-ornament{
+      position:absolute;
+      inset:auto 18px 14px;
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(232,207,145,.7),transparent);
+    }
+
+    .book-hint{
+      position:absolute;
+      bottom:-26px;
+      left:50%;
+      transform:translateX(-50%);
+      color:#d2b37b;
+      font-size:9px;
+      letter-spacing:2px;
+      opacity:.8;
+      text-transform:uppercase;
+    }
+
+    main{
+      max-width:1400px;
+      margin:auto;
+      padding:10px 5vw 80px;
+    }
+
+    .reader{
+      display:grid;
+      grid-template-columns:310px 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .side,.reading{
+      background:linear-gradient(145deg,#211c14,#17140f);
+      border:1px solid #ffffff14;
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .side{padding:23px}
+    .section-title{font:600 24px 'Cormorant Garamond',serif;margin:0 0 17px}
+    .field{margin-bottom:14px}
+    .field label{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
+    .field select,.field input{
+      width:100%;
+      padding:12px;
+      background:#100e0b;
+      color:var(--ink);
+      border:1px solid #5b4a2d;
+      border-radius:9px;
+      outline:none;
+    }
+
+    .field select:focus,.field input:focus{border-color:var(--gold)}
+    .select-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .side .primary{width:100%;margin-top:3px}
+    .quick{margin-top:25px;padding-top:20px;border-top:1px solid #ffffff16}
+    .quick button{
+      width:100%;
+      text-align:left;
+      background:#ffffff08;
+      border:1px solid #ffffff12;
+      color:var(--ink);
+      padding:11px 12px;
+      border-radius:9px;
+      margin:5px 0;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .quick button:hover{border-color:var(--gold);color:var(--gold2)}
+
+    .reading{
+      min-height:550px;
+      padding:30px 34px;
+      position:relative;
+    }
+
+    .reading-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      border-bottom:1px solid #ffffff17;
+      padding-bottom:18px;
+    }
+
+    .reading-top .sub{
+      font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;
+    }
+
+    .reading h2{
+      font:600 38px 'Cormorant Garamond',serif;margin:5px 0 0;
+    }
+
+    .tools{display:flex;gap:8px}
+    .tools button{
+      background:#ffffff09;
+      border:1px solid #ffffff20;
+      color:var(--muted);
+      border-radius:8px;
+      padding:9px 11px;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .tools button.active,.tools button:hover{
+      color:var(--gold2);
+      border-color:var(--gold);
+    }
+
+    .tab-bar{
+      display:flex;
+      gap:8px;
+      margin:18px 0 0;
+      padding:0 2px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+
+    .tab{
+      border:1px solid transparent;
+      background:transparent;
+      color:var(--muted);
+      padding:10px 14px;
+      border-radius:10px 10px 0 0;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s;
+      letter-spacing:.5px;
+    }
+
+    .tab.active{
+      background:#ffffff08;
+      color:var(--gold2);
+      border-color:rgba(255,255,255,.08);
+      border-bottom-color:transparent;
+    }
+
+    .verse-area{
+      padding:24px 4px 0;
+      max-width:780px;
+      margin:auto;
+    }
+
+    .chapter-intro{
+      font:italic 18px 'Cormorant Garamond',serif;
+      color:var(--muted);
+      text-align:center;
+      margin:0 0 24px;
+    }
+
+    .verse{
+      font:18px/1.9 'Cormorant Garamond',serif;
+      color:#eadfc9;
+      padding:9px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      transition:.2s;
+      margin:0 0 8px;
+    }
+
+    .verse sup{
+      font:700 10px 'DM Sans',sans-serif;
+      color:var(--gold);
+      margin-right:9px;
+    }
+
+    .verse:hover,.verse.selected{
+      background:#d6b36a17;
+      color:#fff1d1;
+    }
+
+    .kids-verse{
+      background:linear-gradient(135deg,#f8eec8,#f2dba0);
+      border:1px solid rgba(185,139,52,.6);
+      border-radius:14px;
+      padding:18px 18px 16px;
+      margin-bottom:14px;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+    }
+
+    .kids-verse .tag{
+      display:inline-block;
+      font-size:10px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:#865d19;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .kids-verse h4{
+      font:700 20px 'Cormorant Garamond',serif;
+      margin:0 0 8px;
+      color:#4b3518;
+    }
+
+    .kids-verse p{
+      margin:0;
+      font:600 18px/1.7 'Cormorant Garamond',serif;
+      color:#2e200f;
+    }
+
+    .verse-actions{
+      display:flex;gap:10px;justify-content:center;margin:25px 0 0;
+    }
+
+    .verse-actions button{
+      border:1px solid #ffffff22;
+      background:#ffffff08;
+      color:var(--muted);
+      padding:10px 15px;
+      border-radius:30px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .verse-actions button:hover{
+      border-color:var(--gold);
+      color:var(--gold2);
+    }
+
+    .notice{
+      font-size:11px;
+      line-height:1.6;
+      color:#9e927b;
+      text-align:center;
+      margin-top:20px;
+    }
+
+    .bottom-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:15px;
+      margin-top:22px;
+    }
+
+    .mini-card{
+      background:#1c1812;
+      border:1px solid #ffffff13;
+      border-radius:14px;
+      padding:19px;
+    }
+
+    .mini-card span{
+      font-size:10px;
+      color:var(--gold);
+      letter-spacing:2px;
+    }
+
+    .mini-card h3{
+      font:600 22px 'Cormorant Garamond',serif;
+      margin:8px 0;
+    }
+
+    .mini-card p{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0;
+    }
+
+    .toast{
+      position:fixed;
+      bottom:22px;left:50%;
+      transform:translate(-50%,20px);
+      background:#e4c47d;
+      color:#21190d;
+      padding:12px 18px;
+      border-radius:30px;
+      font-size:13px;
+      font-weight:700;
+      opacity:0;
+      transition:.3s;
+      pointer-events:none;
+      z-index:30;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translate(-50%,0);
+    }
+
+    html.light{
+      --bg:#eee6d6;
+      --panel:#fffaf0;
+      --ink:#2a2116;
+      --muted:#75664f;
+    }
+
+    html.light body{
+      background:#eee6d6;
+      color:#2a2116;
+    }
+
+    html.light header{
+      background:#eee6d6ed;
+    }
+
+    html.light .side,
+    html.light .reading,
+    html.light .mini-card{
+      background:#fffaf0;
+      border-color:#d7c7a9;
+    }
+
+    html.light .field select,
+    html.light .field input{
+      background:#fff;
+      color:#2a2116;
+    }
+
+    html.light .verse{
+      color:#403522;
+    }
+
+    html.light .verse:hover,
+    html.light .verse.selected{
+      background:#ead9b5;
+    }
+
+    @media(max-width:850px){
+      nav{display:none}
+      .hero{grid-template-columns:1fr;padding-top:40px}
+      .book-stage{height:300px}
+      .reader{grid-template-columns:1fr}
+      .bottom-grid{grid-template-columns:1fr}
+      .reading{padding:22px 17px}
+    }
+
+    @media(max-width:480px){
+      header{padding:0 18px}
+      .brand{font-size:22px}
+      .header-actions .small-btn{display:none}
+      .hero{padding-left:22px;padding-right:22px}
+      .hero h1{font-size:48px}
+      main{padding-left:15px;padding-right:15px}
+      .reading h2{font-size:31px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      BÍBLIA VIVA
+    </div>
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#leitura">Leitura</a>
+      <a href="#recursos">Recursos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="small-btn" id="themeBtn">☼ Tema</button>
+      <button class="icon-btn" title="Ir para leitura" onclick="document.querySelector('#leitura').scrollIntoView({behavior:'smooth'})">⌕</button>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <div class="eyebrow">Uma jornada pela Palavra</div>
+      <h1>Encontre luz<br>em cada <em>versículo.</em></h1>
+      <p>Um espaço tranquilo para ler, explorar e guardar as passagens que inspiram sua caminhada. Escolha um livro, capítulo e versículo e comece sua leitura.</p>
+      <div class="hero-buttons">
+        <button class="primary" onclick="document.querySelector('#leitura').scrollIntoView({behavior:'smooth'})">Começar a leitura&nbsp; →</button>
+        <button class="secondary" onclick="dailyVerse()">Versículo do dia</button>
+      </div>
+    </div>
+
+    <div class="book-stage">
+      <div class="glow"></div>
+      <div class="book-shadow"></div>
+
+      <div class="book3d" id="book" aria-label="Livro bíblico">
+        <div class="book-shell">
+          <div class="book-pages"></div>
+          <div class="book-spine"></div>
+          <div class="book-cover">
+            <div class="book-cover-inner">
+              <div class="book-cross">✝</div>
+              <div class="book-title">BÍBLIA</div>
+              <div class="book-sub">SAGRADAS ESCRITURAS</div>
+            </div>
+            <div class="book-ornament"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-hint">PASSE O MOUSE PARA ABRIR</div>
+    </div>
+  </section>
+
+  <main>
+    <section class="reader" id="leitura">
+      <aside class="side">
+        <h2 class="section-title">Encontre sua passagem</h2>
+
+        <div class="field">
+          <label for="bookSelect">LIVRO</label>
+          <select id="bookSelect"></select>
+        </div>
+
+        <div class="select-row">
+          <div class="field">
+            <label for="chapterSelect">CAPÍTULO</label>
+            <select id="chapterSelect"></select>
+          </div>
+
+          <div class="field">
+            <label for="verseSelect">VERSÍCULO</label>
+            <select id="verseSelect">
+              <option value="1">1</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="primary" id="readBtn">Abrir passagem →</button>
+
+        <div class="quick">
+          <div class="eyebrow">Acesso rápido</div>
+          <button onclick="goTo('João',3,16)">João 3:16 — O amor de Deus</button>
+          <button onclick="goTo('Salmos',23,1)">Salmos 23 — O Senhor é meu pastor</button>
+          <button onclick="goTo('Provérbios',3,5)">Provérbios 3:5 — Confiança</button>
+          <button onclick="goTo('Gênesis',1,1)">Gênesis 1:1 — A criação</button>
+        </div>
+      </aside>
+
+      <section class="reading">
+        <div class="reading-top">
+          <div>
+            <div class="sub">Sua leitura</div>
+            <h2 id="passageTitle">João 3</h2>
+          </div>
+
+          <div class="tools">
+            <button id="fontDown" title="Diminuir texto">A−</button>
+            <button id="fontUp" title="Aumentar texto">A+</button>
+            <button id="bookmarkBtn" title="Guardar passagem">☆</button>
+          </div>
+        </div>
+
+        <div class="tab-bar">
+          <button class="tab active" data-mode="normal" id="tabNormal">Leitura</button>
+          <button class="tab" data-mode="kids" id="tabKids">Kids</button>
+        </div>
+
+        <div class="verse-area">
+          <p class="chapter-intro" id="chapterIntro">Uma palavra para fortalecer sua fé.</p>
+          <div id="verses"></div>
+
+          <div class="verse-actions">
+            <button id="prevBtn">← Capítulo anterior</button>
+            <button id="nextBtn">Próximo capítulo →</button>
+          </div>
+
+          <p class="notice" id="sourceNotice">Selecione qualquer versículo para destacá-lo. O texto bíblico é carregado de uma fonte online quando disponível.</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="bottom-grid" id="recursos">
+      <article class="mini-card">
+        <span>01 / EXPLORAR</span>
+        <h3>66 livros, uma história</h3>
+        <p>Navegue entre Antigo e Novo Testamento e escolha a passagem que deseja estudar.</p>
+      </article>
+
+      <article class="mini-card">
+        <span>02 / PERSONALIZAR</span>
+        <h3>Sua leitura, seu ritmo</h3>
+        <p>Ajuste o tamanho das letras, altere o tema e selecione versículos para dar destaque.</p>
+      </article>
+
+      <article class="mini-card">
+        <span>03 / GUARDAR</span>
+        <h3>Passagens favoritas</h3>
+        <p>Salve uma referência importante neste navegador para encontrá-la novamente.</p>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const books = [
+      ['Gênesis',50],['Êxodo',40],['Levítico',27],['Números',36],['Deuteronômio',34],['Josué',24],['Juízes',21],['Rute',4],['1 Samuel',31],['2 Samuel',24],['1 Reis',22],['2 Reis',25],['1 Crônicas',29],['2 Crônicas',36],['Esdras',10],['Neemias',13],['Ester',10],['Jó',42],['Salmos',150],['Provérbios',31],['Eclesiastes',12],['Cantares',8],['Isaías',66],['Jeremias',52],['Lamentações',5],['Ezequiel',48],['Daniel',12],['Oseias',14],['Joel',3],['Amós',9],['Obadias',1],['Jonas',4],['Miqueias',7],['Naum',3],['Habacuque',3],['Sofonias',3],['Ageu',2],['Zacarias',14],['Malaquias',4],['Mateus',28],['Marcos',16],['Lucas',24],['João',21],['Atos',28],['Romanos',16],['1 Coríntios',16],['2 Coríntios',13],['Gálatas',6],['Efésios',6],['Filipenses',4],['Colossenses',4],['1 Tessalonicenses',5],['2 Tessalonicenses',3],['1 Timóteo',6],['2 Timóteo',4],['Tito',3],['Filemom',1],['Hebreus',13],['Tiago',5],['1 Pedro',5],['2 Pedro',3],['1 João',5],['2 João',1],['3 João',1],['Judas',1],['Apocalipse',22]
+    ];
+
+    const $ = id => document.getElementById(id);
+    const bookSel = $('bookSelect');
+    const chapterSel = $('chapterSelect');
+    const verseSel = $('verseSelect');
+    const versesBox = $('verses');
+    let currentVerses = [];
+    let activeMode = 'normal';
+
+    function simplifyForKids(text) {
+      let t = text
+        .replace(/Deus amou o mundo de tal maneira/g, 'Deus ama muito o mundo')
+        .replace(/Filho unigênito/g, 'Jesus, o Filho de Deus')
+        .replace(/para que todo aquele que nele crê/g, 'para que todas as pessoas que confiam nEle')
+        .replace(/não pereça, mas tenha a vida eterna/g, 'não se percam, mas tenham uma vida com Deus para sempre')
+        .replace(/porque/g, 'porque')
+        .replace(/não te estribes no teu próprio entendimento/g, 'não confie só no que você entende')
+        .replace(/O Senhor é o meu pastor/g, 'O Senhor cuida de mim e me guia')
+        .replace(/nada me faltará/g, 'nunca vou faltar em nada')
+        .replace(/No princípio criou Deus os céus e a terra/g, 'No começo, Deus criou os céus e a terra')
+        .replace(/Confia no Senhor de todo o teu coração/g, 'Confie no Senhor com todo o seu coração')
+        .replace(/e não te estribes no teu próprio entendimento/g, 'e não dependa só do que você pensa')
+        .replace(/Teu/g, 'seu')
+        .replace(/não pereça/g, 'não se perca')
+        .replace(/vida eterna/g, 'uma vida com Deus para sempre')
+        .replace(/Cria/g, 'criou')
+        .replace(/ama muito/g, 'ama muito')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      return t;
+    }
+
+    function renderNormalVerses(selectedVerse = null) {
+      versesBox.innerHTML = '';
+      currentVerses.forEach(v => {
+        const p = document.createElement('p');
+        p.className = 'verse' + (selectedVerse && Number(v.verse) === Number(selectedVerse) ? ' selected' : '');
+        p.dataset.v = v.verse;
+        p.innerHTML = `<sup>${v.verse}</sup> `;
+        p.append(document.createTextNode((v.text || '').trim()));
+        p.onclick = () => selectVerse(v.verse);
+        versesBox.append(p);
+      });
+
+      if (currentVerses.length && selectedVerse) {
+        const selected = versesBox.querySelector(`[data-v="${selectedVerse}"]`);
+        if (selected) selected.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+
+    function renderKidsVerses(selectedVerse = null) {
+      versesBox.innerHTML = '';
+
+      currentVerses.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'kids-verse' + (selectedVerse && Number(v.verse) === Number(selectedVerse) ? ' selected' : '');
+        card.style.borderColor = selectedVerse && Number(v.verse) === Number(selectedVerse) ? '#9d7a39' : 'rgba(185,139,52,.6)';
+        card.innerHTML = `
+          <div class="tag">Versículo ${v.verse}</div>
+          <h4>Uma mensagem simples para você:</h4>
+          <p>${simplifyForKids(v.text || '')}</p>
+        `;
+        card.onclick = () => selectVerse(v.verse);
+        versesBox.append(card);
+      });
+
+      if (currentVerses.length && selectedVerse) {
+        const selected = versesBox.querySelector(`[data-v="${selectedVerse}"]`) || versesBox.children[Number(selectedVerse)-1];
+        if (selected) selected.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+
+    function renderMode() {
+      const verse = verseSel.value;
+      if (activeMode === 'normal') {
+        renderNormalVerses(verse);
+      } else {
+        renderKidsVerses(verse);
+      }
+    }
+
+    books.forEach(([name]) => {
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      bookSel.append(option);
+    });
+
+    function fillChapters(ch = 1) {
+      const book = books.find(x => x[0] === bookSel.value);
+      chapterSel.innerHTML = '';
+
+      for (let i = 1; i <= book[1]; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        chapterSel.append(option);
+      }
+
+      chapterSel.value = ch;
+      fillVerses();
+    }
+
+    function fillVerses(selected = 1) {
+      verseSel.innerHTML = '';
+      for (let i = 1; i <= 176; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        verseSel.append(option);
+      }
+      verseSel.value = selected;
+    }
+
+    bookSel.addEventListener('change', () => fillChapters());
+    chapterSel.addEventListener('change', () => fillVerses());
+
+    function goTo(book, chapter, verse = 1) {
+      bookSel.value = book;
+      fillChapters(chapter);
+      verseSel.value = verse;
+      loadPassage();
+    }
+
+    $('readBtn').onclick = loadPassage;
+
+    async function loadPassage() {
+      const book = bookSel.value;
+      const chapter = chapterSel.value;
+      const verse = verseSel.value;
+
+      $('passageTitle').textContent = `${book} ${chapter}`;
+      $('chapterIntro').textContent = 'Carregando a passagem selecionada…';
+      versesBox.innerHTML = '<p class="verse">Buscando o texto bíblico…</p>';
+
+      try {
+        const url = `https://bible-api.com/${encodeURIComponent(book + ' ' + chapter)}?translation=almeida`;
+        const res = await fetch(url);
+
+        if (!res.ok) throw new Error('Fonte indisponível');
+
+        const data = await res.json();
+        currentVerses = data.verses || [];
+
+        $('chapterIntro').textContent = `${book} • Capítulo ${chapter}`;
+        $('sourceNotice').textContent = 'Texto carregado online. Toque em um versículo para selecioná-lo.';
+
+        renderMode();
+
+      } catch (e) {
+        const samples = {
+          'João 3:16': 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.',
+          'Salmos 23:1': 'O Senhor é o meu pastor; nada me faltará.',
+          'Provérbios 3:5': 'Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento.',
+          'Gênesis 1:1': 'No princípio criou Deus os céus e a terra.'
+        };
+
+        const key = `${book} ${chapter}:${verse}`;
+        const txt = samples[key] || 'Não foi possível carregar este capítulo agora. Verifique sua conexão com a internet e tente novamente.';
+
+        currentVerses = [{ verse: Number(verse), text: txt }];
+
+        $('chapterIntro').textContent = `${book} • Capítulo ${chapter}`;
+        $('sourceNotice').textContent = 'A conexão com a fonte bíblica não respondeu. Tente novamente quando estiver online.';
+
+        renderMode();
+      }
+    }
+
+    function selectVerse(n) {
+      verseSel.value = n;
+      renderMode();
+    }
+
+    $('prevBtn').onclick = () => {
+      if (+chapterSel.value > 1) {
+        chapterSel.value = +chapterSel.value - 1;
+        fillVerses();
+        loadPassage();
+      } else {
+        toast('Este é o primeiro capítulo do livro.');
+      }
+    };
+
+    $('nextBtn').onclick = () => {
+      if (+chapterSel.value < +chapterSel.options.length) {
+        chapterSel.value = +chapterSel.value + 1;
+        fillVerses();
+        loadPassage();
+      } else {
+        toast('Você chegou ao último capítulo deste livro.');
+      }
+    };
+
+    let fontSize = 18;
+    $('fontUp').onclick = () => {
+      fontSize = Math.min(27, fontSize + 1);
+      document.querySelectorAll('.verse').forEach(p => p.style.fontSize = fontSize + 'px');
+    };
+
+    $('fontDown').onclick = () => {
+      fontSize = Math.max(14, fontSize - 1);
+      document.querySelectorAll('.verse').forEach(p => p.style.fontSize = fontSize + 'px');
+    };
+
+    function toast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2300);
+    }
+
+    $('bookmarkBtn').onclick = () => {
+      const ref = `${bookSel.value} ${chapterSel.value}:${verseSel.value}`;
+      localStorage.setItem('bibliaFavorito', ref);
+      toast('Passagem guardada: ' + ref);
+      $('bookmarkBtn').textContent = '★';
+    };
+
+    $('bookmarkBtn').ondblclick = () => {
+      const ref = localStorage.getItem('bibliaFavorito');
+      if (ref) {
+        const match = ref.match(/^(.*) (\d+):(\d+)$/);
+        if (match) goTo(match[1], +match[2], +match[3]);
+      }
+    };
+
+    function dailyVerse() {
+      goTo('João', 3, 16);
+      toast('Sua inspiração de hoje: João 3:16');
+    }
+
+    $('themeBtn').onclick = () => {
+      document.documentElement.classList.toggle('light');
+      $('themeBtn').textContent = document.documentElement.classList.contains('light') ? '☾ Tema' : '☼ Tema';
+    };
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(btn => btn.classList.toggle('active', btn === tab));
+        activeMode = tab.dataset.mode;
+        renderMode();
+      });
+    });
+
+    const book = $('book');
+    let dragging = false;
+    let startX = 0;
+    let rotateY = -28;
+    let rotateX = 8;
+
+    book.addEventListener('click', () => {
+      book.classList.toggle('opened');
+    });
+
+    book.addEventListener('pointerdown', e => {
+      dragging = true;
+      startX = e.clientX;
+      book.setPointerCapture(e.pointerId);
+    });
+
+    book.addEventListener('pointermove', e => {
+      if (!dragging) return;
+
+      const deltaX = e.clientX - startX;
+      rotateY += deltaX * 0.32;
+      rotateX += deltaX * 0.02;
+
+      book.style.transform = `rotateX(${Math.max(-8, Math.min(20, rotateX))}deg) rotateY(${rotateY}deg) rotateZ(0deg)`;
+      startX = e.clientX;
+    });
+
+    book.addEventListener('pointerup', () => {
+      dragging = false;
+      book.style.transform = `rotateX(8deg) rotateY(${rotateY}deg) rotateZ(0deg)`;
+    });
+
+    book.addEventListener('pointercancel', () => {
+      dragging = false;
+      book.style.transform = `rotateX(8deg) rotateY(${rotateY}deg) rotateZ(0deg)`;
+    });
+
+    bookSel.value = 'João';
+    fillChapters(3);
+    fillVerses(16);
+    loadPassage();
+  </script>
+</body>
+</html>
